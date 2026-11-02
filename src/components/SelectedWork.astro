@@ -1,0 +1,138 @@
+---
+import { projects, categories } from "../data/work";
+import ProjectGroup from "./ProjectGroup.astro";
+import CaseStudyDialog from "./CaseStudyDialog.astro";
+
+const featured = (category: "website" | "branding") =>
+  projects.filter((p) => p.category === category && p.featured);
+---
+
+<section class="work" id="work">
+  <header class="intro">
+    <p class="index">02 / Work</p>
+    <div>
+      <h2>Selected work.</h2>
+      <p>
+        A selection of websites and brand identities designed with purpose and
+        attention to detail.
+      </p>
+    </div>
+  </header>
+
+  <div class="groups">
+    <ProjectGroup label={categories.website.label} projects={featured("website")} />
+    <ProjectGroup label={categories.branding.label} projects={featured("branding")} />
+  </div>
+
+  <div class="all">
+    <a class="btn" href="/work">See all work <span aria-hidden="true">→</span></a>
+  </div>
+
+  <div class="invite">
+    <p>A clearer digital presence starts with a useful first conversation.</p>
+    <a class="btn" href="#contact">Start a project <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<CaseStudyDialog />
+
+<style>
+  .work {
+    width: min(var(--content), calc(100% - 2 * var(--page-pad)));
+    margin: 0 auto;
+    padding: var(--section-space) 0 0;
+  }
+
+  .intro {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(3rem, 7vw, 5rem);
+  }
+
+  .index {
+    font-family: var(--font-label);
+    font-size: 0.64rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6a6e78;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5.4rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+    margin-bottom: 1.1rem;
+  }
+
+  .intro p:last-child {
+    max-width: 28rem;
+    color: var(--ink-soft);
+  }
+
+  .groups {
+    display: grid;
+    gap: clamp(4rem, 8vw, 6.5rem);
+  }
+
+  .all {
+    display: flex;
+    justify-content: center;
+    margin-top: clamp(3.5rem, 7vw, 5.5rem);
+  }
+
+  .btn {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0 1.4rem;
+    border-radius: var(--radius-pill);
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.92rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn:hover {
+    background: var(--btn-dark-hover);
+  }
+
+  .invite {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.75rem;
+    margin-top: clamp(4.5rem, 9vw, 8rem);
+    padding: clamp(2rem, 4vw, 3.25rem) 0;
+    border-top: 1px solid rgba(17, 17, 17, 0.35);
+    border-bottom: 1px solid rgba(17, 17, 17, 0.35);
+  }
+
+  .invite p {
+    max-width: 40rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1.25;
+  }
+
+  @media (min-width: 800px) {
+    .intro {
+      grid-template-columns: 1fr 2fr;
+      align-items: start;
+    }
+
+    .invite {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+  }
+</style>

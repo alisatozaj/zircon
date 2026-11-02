@@ -1,0 +1,85 @@
+---
+import type { Project } from "../data/work";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<article class="card">
+  <div class="thumb">
+    <img src={project.cover} alt="" width="1200" height="900" loading="lazy" />
+  </div>
+  <h4>
+    <button class="open" type="button" data-open-study={project.slug} aria-haspopup="dialog">
+      {project.title}
+    </button>
+  </h4>
+  <p>{project.summary}</p>
+</article>
+
+<style>
+  .card {
+    position: relative;
+  }
+
+  .thumb {
+    border-radius: var(--radius-card);
+    background: var(--bg-elevated);
+    box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.14);
+    overflow: hidden;
+  }
+
+  .thumb img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .card:hover .thumb img {
+    transform: scale(1.03);
+  }
+
+  h4 {
+    margin: 1.15rem 0 0;
+  }
+
+  /* the whole card is clickable: the title button stretches over it */
+  .open {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 500;
+  }
+
+  .open::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-card);
+    cursor: pointer;
+  }
+
+  .open:focus-visible {
+    outline: none;
+  }
+
+  .open:focus-visible::after {
+    outline: 2px solid var(--ink);
+    outline-offset: 4px;
+  }
+
+  p {
+    margin-top: 0.45rem;
+    max-width: 22rem;
+    color: var(--ink-soft);
+    font-size: 0.98rem;
+  }
+</style>

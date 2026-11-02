@@ -1,0 +1,121 @@
+---
+---
+
+<section class="about" id="about">
+  <div class="inner">
+    <p class="index">05 / About</p>
+
+    <div class="layout">
+      <h2>
+        <span>Thoughtful work.</span>
+        <span>A long view.</span>
+      </h2>
+
+      <div class="side">
+        <p class="lead">
+          An independent design and technology studio, starting with websites
+          and brands, with the ambition to build digital products and tools over
+          time.
+        </p>
+
+        <p class="tagline">
+          <svg class="gem" viewBox="0 0 64 56" width="40" height="35" aria-hidden="true">
+            <defs>
+              <linearGradient id="gem-stroke" x1="0" y1="0" x2="64" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#ff9ec7"></stop>
+                <stop offset="0.35" stop-color="#8ccbff"></stop>
+                <stop offset="0.7" stop-color="#ffd96b"></stop>
+                <stop offset="1" stop-color="#98ecbd"></stop>
+              </linearGradient>
+            </defs>
+            <path
+              d="M16 4h32l14 16-30 32L2 20z"
+              fill="rgba(255,255,255,0.6)"
+              stroke="url(#gem-stroke)"
+              stroke-width="1.6"
+              stroke-linejoin="round"></path>
+            <path
+              d="M2 20h60M22 20l10-16 10 16M22 20l10 32 10-32M16 4l6 16M48 4l-6 16"
+              fill="none"
+              stroke="url(#gem-stroke)"
+              stroke-width="1.2"
+              stroke-linejoin="round"></path>
+          </svg>
+          One foundation, many forms.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    position: relative;
+    background: var(--bg-about);
+    padding: var(--section-space) 0;
+  }
+
+  .inner {
+    width: min(var(--content), calc(100% - 2 * var(--page-pad)));
+    margin: 0 auto;
+  }
+
+  .index {
+    margin-bottom: 1.5rem;
+    font-family: var(--font-label);
+    font-size: 0.64rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6a6e78;
+  }
+
+  .layout {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5.4rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+  }
+
+  h2 span {
+    display: block;
+  }
+
+  .lead {
+    max-width: 26rem;
+    font-size: clamp(1rem, 1.4vw, 1.1rem);
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .tagline {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .gem {
+    flex: none;
+  }
+
+  @media (min-width: 900px) {
+    .layout {
+      grid-template-columns: 1.35fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .side {
+      padding-top: 0.6rem;
+    }
+  }
+</style>

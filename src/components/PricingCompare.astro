@@ -1,0 +1,150 @@
+---
+import { packages, compareRows } from "../data/pricing";
+
+const hi = packages.findIndex((p) => p.featured);
+---
+
+<section class="compare" id="compare" aria-labelledby="compare-title">
+  <div class="inner">
+    <h2 id="compare-title">Compare packages</h2>
+
+    <div class="scroll" tabindex="0" role="region" aria-labelledby="compare-title">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Feature</th>
+            {packages.map((pkg, i) => <th scope="col" class:list={{ hi: i === hi }}>{pkg.name}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {
+            compareRows.map((row) => (
+              <tr>
+                <th scope="row">{row.feature}</th>
+                {row.values.map((value, i) => (
+                  <td class:list={{ hi: i === hi }}>
+                    {value === true ? (
+                      <span class="check" role="img" aria-label="Included">
+                        <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
+                          <path
+                            d="M3 8.5l3.2 3.2L13 4.8"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.9"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </span>
+                    ) : (
+                      value
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<style>
+  .compare {
+    background: var(--bg-elevated);
+    padding: var(--section-space) 0 clamp(3rem, 6vw, 5rem);
+  }
+
+  .inner {
+    width: min(var(--content), calc(100% - 2 * var(--page-pad)));
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  .scroll {
+    overflow-x: auto;
+    border-radius: 0.5rem;
+  }
+
+  table {
+    width: 100%;
+    min-width: 40rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
+    font-size: 0.95rem;
+  }
+
+  th,
+  td {
+    padding-inline: 1rem;
+  }
+
+  th:first-child,
+  td:first-child {
+    padding-left: 0;
+  }
+
+  thead th {
+    padding-top: 1.1rem;
+    padding-bottom: 1.1rem;
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  tbody th,
+  tbody td {
+    padding-block: 1.2rem;
+    border-top: 1px solid var(--line);
+  }
+
+  tbody tr:last-child th,
+  tbody tr:last-child td {
+    border-bottom: 1px solid var(--line);
+  }
+
+  tbody th {
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+
+  tbody td {
+    color: var(--ink);
+  }
+
+  .check {
+    display: inline-grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--bg);
+  }
+
+  /* soft highlight on the featured package's column */
+  .hi {
+    background: #f4f6fb;
+  }
+
+  thead th.hi {
+    border-radius: 0.9rem 0.9rem 0 0;
+  }
+
+  tbody tr:last-child td.hi {
+    border-radius: 0 0 0.9rem 0.9rem;
+  }
+
+  th:first-child {
+    width: 28%;
+  }
+</style>

@@ -1,0 +1,176 @@
+---
+import { faqs } from "../data/pricing";
+---
+
+<section class="faq" id="faq" aria-labelledby="faq-title">
+  <div class="inner">
+    <h2 id="faq-title">Pricing FAQ</h2>
+
+    <div class="list">
+      {
+        faqs.map((item, i) => (
+          <div class="item" data-faq-item data-open={i === 0 ? "true" : "false"}>
+            <h3>
+              <button
+                class="q"
+                type="button"
+                id={`faq-q-${i}`}
+                aria-expanded={i === 0 ? "true" : "false"}
+                aria-controls={`faq-a-${i}`}
+              >
+                <span>{item.question}</span>
+                <span class="icon" aria-hidden="true">+</span>
+              </button>
+            </h3>
+            <div class="a" id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`}>
+              <div class="a-inner">
+                <p>{item.answer}</p>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+
+      <a class="btn" href="#contact">Start a project <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-faq-item]").forEach((item) => {
+    const button = item.querySelector<HTMLButtonElement>(".q");
+    if (!button) return;
+
+    button.addEventListener("click", () => {
+      const open = item.dataset.open !== "true";
+      item.dataset.open = String(open);
+      button.setAttribute("aria-expanded", String(open));
+    });
+  });
+</script>
+
+<style>
+  .faq {
+    background: var(--bg-elevated);
+    padding: clamp(3rem, 6vw, 5rem) 0 var(--section-space);
+  }
+
+  .inner {
+    width: min(var(--content), calc(100% - 2 * var(--page-pad)));
+    margin: 0 auto;
+    display: grid;
+    gap: 2rem;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .list {
+    border-top: 1px solid var(--line);
+  }
+
+  .item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .item h3 {
+    margin: 0;
+    font: inherit;
+  }
+
+  .q {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    padding: 1.35rem 0;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+
+  .icon {
+    flex: none;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--ink-soft);
+    transition: transform 0.35s ease, color 0.2s ease;
+  }
+
+  .q:hover .icon {
+    color: var(--ink);
+  }
+
+  .item[data-open="true"] .icon {
+    transform: rotate(45deg);
+  }
+
+  /* Smooth open/close: the row height animates from 0fr to 1fr */
+  .a {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s ease;
+  }
+
+  .item[data-open="true"] .a {
+    grid-template-rows: 1fr;
+  }
+
+  .a-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .a-inner p {
+    max-width: 36rem;
+    padding-bottom: 1.4rem;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.3s ease, transform 0.4s ease;
+  }
+
+  .item[data-open="true"] .a-inner p {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0.08s;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    margin-top: 2.5rem;
+    padding: 0 1.4rem;
+    border-radius: var(--radius-pill);
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn:hover {
+    background: var(--btn-dark-hover);
+  }
+
+  @media (min-width: 800px) {
+    .inner {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      gap: 3rem;
+      align-items: start;
+    }
+  }
+</style>

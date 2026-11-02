@@ -1,0 +1,289 @@
+---
+import { siteForm } from "../data/site";
+
+const options = [
+  { value: "landing-page", label: "Landing page" },
+  { value: "business-website", label: "Business website" },
+  { value: "custom-website", label: "Custom website" },
+  { value: "branding", label: "Branding or logo" },
+  { value: "not-sure", label: "Not sure yet" },
+];
+---
+
+<form
+  class="form"
+  data-contact-form
+  data-endpoint={siteForm.endpoint}
+  data-key={siteForm.accessKey}
+  data-fallback={siteForm.fallbackEmail}
+  method="post"
+  novalidate
+>
+  <input type="hidden" name="subject" value="New project enquiry — Zircon" />
+  <input type="hidden" name="from_name" value="Zircon website" />
+  <!-- spam trap: real people never see or tick this -->
+  <input class="trap" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" />
+
+  <div class="row">
+    <label>
+      <span>Name</span>
+      <input type="text" name="name" autocomplete="name" required />
+    </label>
+    <label>
+      <span>Email</span>
+      <input type="email" name="email" autocomplete="email" required />
+    </label>
+  </div>
+
+  <label>
+    <span>What do you need?</span>
+    <select name="interest">
+      <option value="">Choose one (optional)</option>
+      {options.map((o) => <option value={o.value}>{o.label}</option>)}
+    </select>
+  </label>
+
+  <label>
+    <span>Tell us about it</span>
+    <textarea
+      name="message"
+      rows="5"
+      placeholder="A few lines is enough: what it is, who it's for, and any timing."
+      required></textarea>
+  </label>
+
+  <button class="send" type="submit">
+    <span data-label>Send message</span> <span aria-hidden="true">→</span>
+  </button>
+
+  <p class="status" data-status role="status" aria-live="polite"></p>
+
+  <p class="notice">
+    We only use these details to reply to you. See the <a href="/privacy">privacy notice</a>.
+  </p>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+
+  if (form) {
+    const status = form.querySelector<HTMLElement>("[data-status]");
+    const button = form.querySelector<HTMLButtonElement>(".send");
+    const label = form.querySelector<HTMLElement>("[data-label]");
+    const endpoint = form.dataset.endpoint ?? "";
+    const key = form.dataset.key ?? "";
+    const fallback = form.dataset.fallback ?? "";
+
+    const show = (text: string, kind: "ok" | "error") => {
+      if (!status) return;
+      status.textContent = text;
+      status.dataset.kind = kind;
+    };
+
+    const busy = (on: boolean) => {
+      if (button) button.disabled = on;
+      if (label) label.textContent = on ? "Sending…" : "Send message";
+    };
+
+    // Clicking "Choose package" in Pricing pre-selects that package here.
+    document.addEventListener("click", (event) => {
+      const trigger = (event.target as Element | null)?.closest<HTMLElement>("[data-package]");
+      const select = form.elements.namedItem("interest");
+      if (trigger?.dataset.package && select instanceof HTMLSelectElement) {
+        select.value = trigger.dataset.package;
+      }
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      show("", "ok");
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      if (!key || key.startsWith("YOUR_")) {
+        console.warn("Contact form: add your Web3Forms access key in src/data/site.ts");
+        show(`The form isn't connected yet. Please email us at ${fallback}.`, "error");
+        return;
+      }
+
+      busy(true);
+      try {
+        const data = new FormData(form);
+        data.set("access_key", key);
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: data,
+        });
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          form.reset();
+          show("Thank you, your message has been sent. We'll reply by email.", "ok");
+        } else {
+          show(`Something went wrong. Please try again, or email us at ${fallback}.`, "error");
+        }
+      } catch {
+        show(`Something went wrong. Please try again, or email us at ${fallback}.`, "error");
+      } finally {
+        busy(false);
+      }
+    });
+  }
+</script>
+
+<style>
+  .form {
+    display: grid;
+    gap: 1.1rem;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-card);
+    background: rgba(255, 255, 255, 0.04);
+    text-align: left;
+  }
+
+  .row {
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  label {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  label > span {
+    font-family: var(--font-label);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  input[type="text"],
+  input[type="email"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 8rem;
+  }
+
+  ::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  input:hover,
+  select:hover,
+  textarea:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: none;
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  select {
+    appearance: none;
+    padding-right: 2.5rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23ffffff' stroke-opacity='.7' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 0.75rem;
+  }
+
+  select option {
+    color: #111;
+  }
+
+  .trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .send {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3.2rem;
+    margin-top: 0.4rem;
+    padding: 0 1.6rem;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: #fff;
+    color: var(--ink);
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+
+  .send:hover {
+    background: var(--btn-light-hover);
+  }
+
+  .send:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  .send:focus-visible {
+    outline-color: #fff;
+  }
+
+  .status {
+    min-height: 0;
+    font-size: 0.9rem;
+  }
+
+  .status[data-kind="ok"] {
+    color: #98ecbd;
+  }
+
+  .status[data-kind="error"] {
+    color: #ffb4b4;
+  }
+
+  .notice {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .notice a {
+    color: rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  }
+
+  .notice a:hover {
+    border-color: #fff;
+  }
+
+  @media (min-width: 560px) {
+    .row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

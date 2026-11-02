@@ -1,0 +1,124 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import ProjectGroup from "../components/ProjectGroup.astro";
+import CaseStudyDialog from "../components/CaseStudyDialog.astro";
+import Cta from "../components/Cta.astro";
+import Footer from "../components/Footer.astro";
+import { projects, categories } from "../data/work";
+
+const byCategory = (category: "website" | "branding") =>
+  projects.filter((p) => p.category === category);
+---
+
+<BaseLayout title="Work — Zircon" description="Websites, branding and digital work by Zircon.">
+  <Header />
+  <main id="main">
+    <section class="page">
+      <header class="intro">
+        <p class="index">Work</p>
+        <div>
+          <h1>All work.</h1>
+          <p>Websites, logos and brand identities. Click any project to see the full picture.</p>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="Work categories">
+        <a href="#websites">
+          {categories.website.label} <span>{String(byCategory("website").length).padStart(2, "0")}</span>
+        </a>
+        <a href="#branding">
+          {categories.branding.label} <span>{String(byCategory("branding").length).padStart(2, "0")}</span>
+        </a>
+      </nav>
+
+      <div class="groups">
+        <ProjectGroup id="websites" label={categories.website.label} projects={byCategory("website")} />
+        <ProjectGroup id="branding" label={categories.branding.label} projects={byCategory("branding")} />
+      </div>
+    </section>
+
+    <CaseStudyDialog />
+    <Cta />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .page {
+    width: min(var(--content), calc(100% - 2 * var(--page-pad)));
+    margin: 0 auto;
+    padding: calc(var(--header-height) + 4rem) 0 var(--section-space);
+  }
+
+  .intro {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(3rem, 7vw, 5rem);
+  }
+
+  .index {
+    font-family: var(--font-label);
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6a6e78;
+  }
+
+  h1 {
+    margin-bottom: 1.1rem;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5.4rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+  }
+
+  .intro p:last-child {
+    max-width: 28rem;
+    color: var(--ink-soft);
+  }
+
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .tabs a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem 1.1rem;
+    border: 1px solid rgba(17, 17, 17, 0.2);
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.72);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+
+  .tabs a:hover {
+    background: var(--btn-light-hover);
+  }
+
+  .tabs span {
+    font-family: var(--font-label);
+    font-size: 0.55rem;
+    font-weight: 400;
+    color: #8a8d96;
+  }
+
+  .groups {
+    display: grid;
+    gap: clamp(4rem, 8vw, 6.5rem);
+  }
+
+  @media (min-width: 800px) {
+    .intro {
+      grid-template-columns: 1fr 2fr;
+      align-items: start;
+    }
+  }
+</style>

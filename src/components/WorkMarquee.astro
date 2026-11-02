@@ -1,0 +1,128 @@
+---
+import { projects } from "../data/work";
+
+// Top row: websites. Bottom row: branding. Repeated so each row has enough slides to loop smoothly.
+const repeatTo = <T,>(list: T[], min: number) => {
+  const out: T[] = [];
+  while (list.length && out.length < min) out.push(...list);
+  return out;
+};
+
+const websiteSlides = repeatTo(projects.filter((p) => p.category === "website"), 10);
+const brandingSlides = repeatTo(projects.filter((p) => p.category === "branding"), 10);
+---
+
+<div class="showcase" data-showcase>
+  <div class="row swiper" data-marquee="forward" aria-label="Selected website mockups">
+    <div class="swiper-wrapper">
+      {
+        websiteSlides.map((project, index) => (
+          <div class="swiper-slide">
+            <figure>
+              <img
+                src={project.hero ?? project.cover}
+                alt={`${project.title} website mockup`}
+                loading={index < 3 ? "eager" : "lazy"}
+              />
+            </figure>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="row swiper" data-marquee="reverse" aria-label="Selected branding work">
+    <div class="swiper-wrapper">
+      {
+        brandingSlides.map((project) => (
+          <div class="swiper-slide">
+            <figure>
+              <img src={project.hero ?? project.cover} alt={`${project.title} branding`} loading="lazy" />
+            </figure>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<script>
+  import Swiper from "swiper";
+  import { Autoplay } from "swiper/modules";
+  import "swiper/css";
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const createMarquee = (el: HTMLElement, reverse: boolean) => {
+    return new Swiper(el, {
+      modules: [Autoplay],
+      loop: true,
+      slidesPerView: "auto",
+      spaceBetween: 16,
+      speed: reduceMotion ? 0 : 14000,
+      allowTouchMove: true,
+      grabCursor: true,
+      autoplay: reduceMotion
+        ? false
+        : {
+            delay: 0,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+            reverseDirection: reverse,
+          },
+    });
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-marquee]").forEach((row) => {
+    createMarquee(row, row.dataset.marquee === "reverse");
+  });
+</script>
+
+<style>
+  .showcase {
+    display: grid;
+    gap: 1rem;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    overflow: hidden;
+    padding-bottom: 0.25rem;
+  }
+
+  .row {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .row :global(.swiper-wrapper) {
+    transition-timing-function: linear !important;
+    align-items: stretch;
+  }
+
+  .row :global(.swiper-slide) {
+    width: min(34rem, 78vw);
+    height: auto;
+  }
+
+  figure {
+    margin: 0;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #dfe3ec;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (min-width: 900px) {
+    .showcase {
+      gap: 1.15rem;
+    }
+
+    .row :global(.swiper-slide) {
+      width: min(36rem, 42vw);
+    }
+  }
+</style>

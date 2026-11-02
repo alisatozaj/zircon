@@ -1,0 +1,67 @@
+---
+import type { Project } from "../data/work";
+import ProjectCard from "./ProjectCard.astro";
+
+interface Props {
+  label: string;
+  projects: Project[];
+  id?: string;
+}
+
+const { label, projects = [], id } = Astro.props;
+---
+
+{
+  projects.length > 0 && (
+    <div class="group" id={id}>
+      <div class="head">
+        <h3>{label}</h3>
+        <span class="count">{String(projects.length).padStart(2, "0")}</span>
+      </div>
+      <div class="grid">
+        {projects.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .group {
+    scroll-margin-top: calc(var(--header-height) + 1rem);
+  }
+
+  .head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(17, 17, 17, 0.3);
+  }
+
+  h3 {
+    font-family: var(--font-label);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .count {
+    font-family: var(--font-label);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: #8a8d96;
+  }
+
+  .grid {
+    display: grid;
+    gap: 3.2rem 1.5rem;
+  }
+
+  @media (min-width: 800px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@300;400;500&display=swap");
+
+:root {
+  --bg: #eef1f8;
+  --bg-hero: #f4f6fb;
+  --bg-elevated: #ffffff;
+  --ink: #111111;
+  --ink-soft: #5a5d66;
+  --line: rgba(17, 17, 17, 0.1);
+  --glass: rgba(255, 255, 255, 0.58);
+  --glass-border: rgba(255, 255, 255, 0.72);
+  --shadow-nav: 0 10px 40px rgba(20, 24, 40, 0.08);
+  --radius-pill: 999px;
+  --radius-card: 1.75rem;
+  --font-display: "Manrope", "Segoe UI", sans-serif;
+  --font-body: "Manrope", "Segoe UI", sans-serif;
+  --font-label: "Unbounded", "Manrope", "Segoe UI", sans-serif;
+  --header-height: 5.5rem;
+  --page-pad: clamp(1.25rem, 4vw, 3.5rem);
+  --content: 72rem;
+
+  /* shared accent palette (same hues as the hero glow, a little stronger) */
+  --pink: #ff9ec7;
+  --sky: #8ccbff;
+  --sun: #ffd96b;
+  --mint: #98ecbd;
+  --gradient: linear-gradient(90deg, var(--pink), var(--sky), var(--sun), var(--mint));
+
+  /* section backgrounds */
+  --bg-about: #e3e9f6;
+  --bg-dark: #0c0d11;
+
+  /* button hover colors */
+  --btn-dark-hover: #3a3d45;
+  --btn-light-hover: #dde0e8;
+
+  /* vertical rhythm between sections */
+  --section-space: clamp(7.5rem, 17vw, 14rem);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 200;
+  background: var(--ink);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

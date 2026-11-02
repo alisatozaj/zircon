@@ -1,0 +1,185 @@
+---
+import { steps } from "../data/process";
+---
+
+<section class="process" id="process">
+  <header class="intro">
+    <p class="index">04 / Process</p>
+    <h2>A clear process.</h2>
+  </header>
+
+  <ol class="steps">
+    {
+      steps.map((step, i) => (
+        <li class="step">
+          <span class="num">{String(i + 1).padStart(2, "0")}</span>
+          <span class="dot" aria-hidden="true"></span>
+          <h3>{step.title}</h3>
+          <ul>
+            {step.points.map((point) => <li>{point}</li>)}
+          </ul>
+        </li>
+      ))
+    }
+  </ol>
+
+  <p class="note">Timing depends on scope and on how quickly content and feedback arrive.</p>
+</section>
+
+<style>
+  .process {
+    --dot: 1.15rem;
+    width: min(var(--content), calc(100% - 2 * var(--page-pad)));
+    margin: 0 auto;
+    padding: var(--section-space) 0 clamp(5rem, 9vw, 8rem);
+  }
+
+  .intro {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(3rem, 7vw, 5.5rem);
+  }
+
+  .index {
+    font-family: var(--font-label);
+    font-size: 0.64rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6a6e78;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5.4rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+  }
+
+  /* Mobile: vertical timeline */
+  .steps {
+    position: relative;
+    display: grid;
+    gap: 2.75rem;
+    margin: 0;
+    padding: 0 0 0 2.5rem;
+    list-style: none;
+  }
+
+  .steps::before {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    left: calc(var(--dot) / 2 - 1px);
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, var(--pink), var(--sky), var(--sun), var(--mint));
+  }
+
+  .step {
+    position: relative;
+  }
+
+  .num {
+    display: block;
+    font-family: var(--font-label);
+    font-size: 0.6rem;
+    line-height: 1.25rem;
+    letter-spacing: 0.08em;
+    color: #8a8d96;
+  }
+
+  .dot {
+    position: absolute;
+    top: 0.1rem;
+    left: -2.5rem;
+    display: block;
+    width: var(--dot);
+    height: var(--dot);
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    background: var(--bg);
+    box-shadow: 0 0 0 5px var(--bg);
+  }
+
+  /* small colored core: one hue per step */
+  .dot::after {
+    content: "";
+    position: absolute;
+    inset: 0.22rem;
+    border-radius: 50%;
+    background: var(--c, var(--ink));
+  }
+
+  .step:nth-child(1) { --c: var(--pink); }
+  .step:nth-child(2) { --c: var(--sky); }
+  .step:nth-child(3) { --c: var(--sun); }
+  .step:nth-child(4) { --c: var(--mint); }
+
+  h3 {
+    margin-top: 0.4rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.3rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  ul {
+    display: grid;
+    gap: 0.35rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  .note {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    font-size: 0.9rem;
+    color: #8a8d96;
+  }
+
+  @media (min-width: 800px) {
+    .intro {
+      grid-template-columns: 1fr 2fr;
+      align-items: start;
+    }
+
+    /* Desktop: horizontal timeline */
+    .steps {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0 1.5rem;
+      padding: 0;
+    }
+
+    .steps::before {
+      top: calc(1.25rem + 1rem + var(--dot) / 2 - 1px);
+      bottom: auto;
+      left: calc(var(--dot) / 2);
+      right: 0;
+      width: auto;
+      height: 2px;
+      background: var(--gradient);
+    }
+
+    .num {
+      height: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .dot {
+      position: relative;
+      top: auto;
+      left: auto;
+      margin-bottom: 2.25rem;
+    }
+
+    h3 {
+      margin-top: 0;
+    }
+  }
+</style>

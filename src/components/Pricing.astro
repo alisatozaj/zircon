@@ -1,0 +1,310 @@
+---
+import { packages, addOns } from "../data/pricing";
+---
+
+<section class="pricing" id="pricing">
+  <header class="intro">
+    <p class="index">03 / Pricing</p>
+    <div>
+      <h2>Clear starting points.</h2>
+      <p>Founding-client pricing</p>
+    </div>
+  </header>
+
+  <div class="packages">
+    {
+      packages.map((pkg) => (
+        <article class:list={["card", { featured: pkg.featured }]}>
+          <div class="top">
+            <h3>{pkg.name}</h3>
+            {pkg.badge && <span class="badge">{pkg.badge}</span>}
+          </div>
+
+          <p class="price">
+            <span class="from">from</span>
+            <span class="amount">€{pkg.price}</span>
+          </p>
+
+          <ul>
+            {pkg.features.map((feature) => (
+              <li>
+                <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
+                  <path
+                    d="M3 8.5l3.2 3.2L13 4.8"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          <a
+            class:list={["btn", pkg.featured ? "solid" : "outline"]}
+            href="#contact"
+            data-package={pkg.slug}
+            aria-label={`Choose the ${pkg.name} package`}
+          >
+            Choose package <span aria-hidden="true">→</span>
+          </a>
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="addons">
+    {
+      addOns.map((addon, i) => (
+        <div class="addon">
+          <span class="num">{String(i + 1).padStart(2, "0")}</span>
+          <div>
+            <h3>{addon.name}</h3>
+            <p>{addon.description}</p>
+          </div>
+          <p class="addon-price">{addon.price}</p>
+        </div>
+      ))
+    }
+  </div>
+
+  <p class="notes">
+    Final price depends on the agreed scope. Hosting, domains, copywriting,
+    e-commerce, booking integrations, and paid third-party services are extra
+    unless agreed.
+  </p>
+</section>
+
+<style>
+  .pricing {
+    width: min(var(--content), calc(100% - 2 * var(--page-pad)));
+    margin: 0 auto;
+    padding: var(--section-space) 0 clamp(5rem, 9vw, 8rem);
+  }
+
+  .intro {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(3rem, 7vw, 5rem);
+  }
+
+  .index {
+    font-family: var(--font-label);
+    font-size: 0.64rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6a6e78;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5.4rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+    margin-bottom: 1.1rem;
+  }
+
+  .intro p:last-child {
+    color: var(--ink-soft);
+  }
+
+  /* Cards */
+  .packages {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.6rem;
+    border-radius: var(--radius-card);
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+  }
+
+  .card.featured {
+    border-color: rgba(17, 17, 17, 0.55);
+    background:
+      radial-gradient(70% 34% at 15% 0%, rgba(255, 158, 199, 0.4), transparent 75%),
+      radial-gradient(60% 30% at 90% 0%, rgba(140, 203, 255, 0.45), transparent 75%),
+      radial-gradient(50% 26% at 55% 10%, rgba(255, 217, 107, 0.3), transparent 75%),
+      var(--bg-elevated);
+    box-shadow: var(--shadow-nav);
+  }
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .card h3 {
+    font-family: var(--font-label);
+    font-size: 0.66rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+  }
+
+  .badge {
+    font-family: var(--font-label);
+    font-size: 0.5rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: right;
+    color: var(--ink);
+  }
+
+  .price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-top: clamp(3.5rem, 7vw, 5rem);
+  }
+
+  .from {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+
+  .amount {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 4.6vw, 3.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  ul {
+    flex: 1;
+    display: grid;
+    align-content: start;
+    gap: 0.95rem;
+    margin: 2.5rem 0 3rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.88rem;
+    color: #2b2d33;
+  }
+
+  li svg {
+    flex: none;
+    color: var(--ink);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.9rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .btn.solid {
+    background: var(--ink);
+    color: #fff;
+  }
+
+  .btn.solid:hover {
+    background: var(--btn-dark-hover);
+  }
+
+  .btn.outline {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(17, 17, 17, 0.14);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .btn.outline:hover {
+    background: var(--btn-light-hover);
+    border-color: rgba(17, 17, 17, 0.2);
+  }
+
+  /* Add-ons */
+  .addons {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 0.7rem;
+  }
+
+  .addon {
+    display: grid;
+    grid-template-columns: 2.75rem 1fr auto;
+    align-items: start;
+    gap: 0.5rem 1rem;
+    padding: 1.4rem 1.6rem;
+    border-radius: 1.4rem;
+    background: var(--glass);
+    border: 1px solid var(--line);
+  }
+
+  .num {
+    padding-top: 0.3rem;
+    font-family: var(--font-label);
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+    color: #8a8d96;
+  }
+
+  .addon h3 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .addon p {
+    margin-top: 0.35rem;
+    max-width: 24rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  .addon .addon-price {
+    margin-top: 0;
+    max-width: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .notes {
+    max-width: 40rem;
+    margin-top: 2.25rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  @media (min-width: 800px) {
+    .intro {
+      grid-template-columns: 1fr 2fr;
+      align-items: start;
+    }
+
+    .packages {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .addons {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

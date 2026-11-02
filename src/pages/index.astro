@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Services from "../components/Services.astro";
+import SelectedWork from "../components/SelectedWork.astro";
+import Pricing from "../components/Pricing.astro";
+import PricingCompare from "../components/PricingCompare.astro";
+import PricingFaq from "../components/PricingFaq.astro";
+import Process from "../components/Process.astro";
+import About from "../components/About.astro";
+import Cta from "../components/Cta.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout>
+  <Header />
+  <main id="main">
+    <Hero />
+    <Services />
+    <SelectedWork />
+    <Pricing />
+    <PricingCompare />
+    <PricingFaq />
+    <Process />
+    <About />
+    <Cta />
+  </main>
+  <Footer />
+</BaseLayout>

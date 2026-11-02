@@ -1,0 +1,142 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout title="Privacy — Zircon" description="How Zircon handles the information you send through this website.">
+  <Header />
+  <main id="main">
+    <article class="page">
+      <p class="index">Privacy</p>
+      <h1>Privacy notice.</h1>
+      <p class="updated">Last updated 31 October 2026</p>
+
+      <section>
+        <h2>Who we are</h2>
+        <p>
+          Zircon is an independent design and technology studio. You can reach us at
+          <a href="mailto:zircn.dev@gmail.com">zircn.dev@gmail.com</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2>What we collect</h2>
+        <p>
+          If you use the contact form, we receive your name, your email address, the service you pick (optional) and
+          the message you write. If you email us or message us on Instagram, we receive what you send.
+        </p>
+        <p>
+          Like any website, our hosting and the form service may also process technical data such as your IP address
+          while the page loads or the form is sent.
+        </p>
+      </section>
+
+      <section>
+        <h2>Why we use it</h2>
+        <p>
+          Only to reply to you and, if you ask for it, to prepare a quote or start a project together. We do not send
+          newsletters, sell your details, or use them for advertising.
+        </p>
+      </section>
+
+      <section>
+        <h2>Who handles it</h2>
+        <p>
+          Form messages pass through Web3Forms, a form service that delivers them to our email inbox. Our email is
+          provided by Google (Gmail). The site is delivered by our hosting provider. These services process data on
+          our behalf to make the website work.
+        </p>
+        <p>
+          This site also loads its fonts from Google Fonts, which means your browser contacts Google's servers when the
+          page opens.
+        </p>
+      </section>
+
+      <section>
+        <h2>How long we keep it</h2>
+        <p>
+          We keep enquiries for up to 12 months. If a project goes ahead, we keep the records we need to do the work
+          and to meet legal and accounting obligations.
+        </p>
+      </section>
+
+      <section>
+        <h2>Cookies and analytics</h2>
+        <p>
+          This website does not use cookies for tracking, and it has no analytics or advertising tools. If that
+          changes, we will update this page.
+        </p>
+      </section>
+
+      <section>
+        <h2>Your rights</h2>
+        <p>
+          You can ask us what we hold about you, ask us to correct or delete it, or object to how we use it. Write to
+          <a href="mailto:zircn.dev@gmail.com">zircn.dev@gmail.com</a> and we will respond. You also have the right to
+          complain to your data protection authority. In Albania, that is the Commissioner for the Right to
+          Information and Protection of Personal Data.
+        </p>
+      </section>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .page {
+    width: min(46rem, calc(100% - 2 * var(--page-pad)));
+    margin: 0 auto;
+    padding: calc(var(--header-height) + 4rem) 0 var(--section-space);
+  }
+
+  .index {
+    font-family: var(--font-label);
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6a6e78;
+  }
+
+  h1 {
+    margin-top: 1.25rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 0.98;
+  }
+
+  .updated {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+
+  section {
+    margin-top: 2.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  h2 {
+    margin-bottom: 0.9rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  section p {
+    color: #2b2d33;
+    line-height: 1.65;
+  }
+
+  section p + p {
+    margin-top: 0.8rem;
+  }
+
+  a {
+    border-bottom: 1px solid var(--ink);
+  }
+</style>
